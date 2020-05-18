@@ -1,7 +1,7 @@
 version: '3'
 services:
   ordermyfood:
-    image: developer.okta.com/microservice-docker-ordermyfood:0.0.1-SNAPSHOT
+    image: com.mindtree.omf/microservice-docker-ordermyfood:0.0.1-SNAPSHOT
     ports:
       - 7001:7001
   configserver:
@@ -27,7 +27,7 @@ services:
     ports:
       - 7070:7070
   searchservice:
-    image: developer.okta.com/microservice-docker-searchservice :0.0.1-SNAPSHOT
+    image: com.mindtree.omf/microservice-docker-searchservice :0.0.1-SNAPSHOT
     environment:
       - JAVA_OPTS=
         -DEUREKA_SERVER=http://ordermyfood:7001/eureka
@@ -35,4 +35,4 @@ services:
       - ordermyfood
       - configserver
     ports:
-      - 8080:8080
+      - 7003:7003
