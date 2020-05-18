@@ -7,7 +7,7 @@ services:
   configserver:
     image: com.mindtree.omf/microservice-docker-configserver:0.0.1-SNAPSHOT
     depends_on:
-      - configserver
+      - ordermyfood
     volumes:
       - ./config-data:/var/config-data
     environment:
