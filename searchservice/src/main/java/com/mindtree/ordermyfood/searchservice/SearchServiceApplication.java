@@ -9,7 +9,6 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 @RefreshScope
 @EnableCaching
-@EnableCircuitBreaker
 @EnableDiscoveryClient
 @SpringBootApplication
 public class SearchServiceApplication {
