@@ -2,12 +2,12 @@ version: '3'
 services:
   ordermyfood:
     image: com.mindtree.omf/microservice-docker-ordermyfood:0.0.1-SNAPSHOT
-    depends_on:
-      - configserver
     ports:
       - 7001:7001
   configserver:
     image: com.mindtree.omf/microservice-docker-configserver:0.0.1-SNAPSHOT
+    depends_on:
+      - configserver
     volumes:
       - ./config-data:/var/config-data
     environment:
