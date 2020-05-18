@@ -4,7 +4,7 @@ services:
     image: com.mindtree.omf/microservice-docker-ordermyfood:0.0.1-SNAPSHOT
     ports:
       - 7001:7001
-  loving_kilby:
+  sqlserver:
     image: mcr.microsoft.com/mssql/server:2019-CU3-ubuntu-18.04
     environment:
       - SA_PASSWORD=User@12345
