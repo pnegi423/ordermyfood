@@ -7,9 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mindtree.ordermyfood.searchservice.controller.SearchController;
 import com.mindtree.ordermyfood.searchservice.dto.RestaurantDto;
-import com.mindtree.ordermyfood.searchservice.entity.Restaurants;
 import com.mindtree.ordermyfood.searchservice.exception.DatabaseException;
 import com.mindtree.ordermyfood.searchservice.exception.SearchServiceException;
 import com.mindtree.ordermyfood.searchservice.repository.SearchServiceRepository;
@@ -23,7 +21,6 @@ public class SearchServiceImpl implements SearchService {
 	private SearchServiceRepository searchRepo;
 
 	@Override
-	//@HystrixCommand(fallbackMethod = "defaultFallback")
 	public List<RestaurantDto> getAllRestaurant(Double distance, Double lat,Double lng, String foodtype, 
 			Double budget, Double rating,String searchkeyword,Character veg) throws  SearchServiceException {
 		List<RestaurantDto> restaurants;
@@ -40,13 +37,4 @@ public class SearchServiceImpl implements SearchService {
 		}
 	}
 	
-	private String defaultFallback() {
-		
-		//Sysout
-		return null;	
-	}
-
-
-
-
 }
