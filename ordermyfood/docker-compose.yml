@@ -5,10 +5,10 @@ services:
     ports:
       - 7001:7001
   sqlserver:
-    image: mcr.microsoft.com/mssql/server:2019-CU3-ubuntu-18.04
+    image: mysql:latest
     environment:
-      - SA_PASSWORD=User@12345
-      - DATABASE=OMF
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=OMF
   configserver:
     image: com.mindtree.omf/microservice-docker-configserver:0.0.1-SNAPSHOT
     depends_on:
