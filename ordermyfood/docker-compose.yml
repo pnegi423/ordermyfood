@@ -18,7 +18,7 @@ services:
     expose:
       - 3306
     environment:
-      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ROOT_PASSWORD=my-pass
       - MYSQL_DATABASE=OMF
 networks:
   omf-mysql:
