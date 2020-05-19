@@ -3,7 +3,7 @@ services:
   ordermyfood:
     image: com.mindtree.omf/microservice-docker-ordermyfood:0.0.1-SNAPSHOT
     ports:
-      - 7001:7001
+      - 80:7001
     networks:
       - omf-mysql
     expose:
