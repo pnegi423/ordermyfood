@@ -4,10 +4,14 @@ services:
     image: com.mindtree.omf/microservice-docker-ordermyfood:0.0.1-SNAPSHOT
     ports:
       - 7001:7001
+    expose:
+      - 3306
     depends_on:
       - sqlserver
   sqlserver:
     image: mysql:latest
+    expose:
+      - 3306
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=OMF
