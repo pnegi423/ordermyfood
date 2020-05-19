@@ -10,6 +10,7 @@ services:
       - sqlserver
   sqlserver:
     image: mysql:latest
+    container_name: sqlserver
     expose:
       - 3306
     environment:
