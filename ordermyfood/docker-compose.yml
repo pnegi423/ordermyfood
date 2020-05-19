@@ -4,40 +4,10 @@ services:
     image: com.mindtree.omf/microservice-docker-ordermyfood:0.0.1-SNAPSHOT
     ports:
       - 7001:7001
+    depends_on:
+      - sqlserver
   sqlserver:
     image: mysql:latest
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=OMF
-  configserver:
-    image: com.mindtree.omf/microservice-docker-configserver:0.0.1-SNAPSHOT
-    depends_on:
-      - ordermyfood
-    volumes:
-      - ./config-data:/var/config-data
-    environment:
-      - JAVA_OPTS=
-         -DEUREKA_SERVER=http://ordermyfood:7001/eureka
-         -Dspring.cloud.config.server.native.searchLocations=/var/config-data
-    ports:
-      - 7005:7005
-  gatewayserver:
-    image: com.mindtree.omf/microservice-docker-gatewayserver:0.0.1-SNAPSHOT
-    environment:
-      - JAVA_OPTS=
-         -DEUREKA_SERVER=http://ordermyfood:7001/eureka
-    depends_on:
-      - ordermyfood
-      - configserver
-    ports:
-      - 7070:7070
-  searchservice:
-    image: com.mindtree.omf/microservice-docker-searchservice:0.0.1-SNAPSHOT
-    environment:
-      - JAVA_OPTS=
-        -DEUREKA_SERVER=http://ordermyfood:7001/eureka
-    depends_on:
-      - ordermyfood
-      - configserver
-    ports:
-      - 7003:7003
