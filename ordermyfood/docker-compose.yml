@@ -4,7 +4,6 @@ services:
     image: com.mindtree.omf/microservice-docker-ordermyfood:0.0.1-SNAPSHOT
     ports:
       - 80:7001
-    command: sh -c './wait-for sqlserver:3306 -- mysql start'
     depends_on:
       sqlserver:
         condition: service_started
@@ -18,7 +17,6 @@ services:
       - MYSQL_DATABASE=OMF
   configserver:
     image: com.mindtree.omf/microservice-docker-configserver:0.0.1-SNAPSHOT
-    command: sh -c './wait-for ordermyfood:7001 -- eureka server start'
     depends_on:
       ordermyfood:
         condition: service_started
@@ -33,7 +31,6 @@ services:
     environment:
       - JAVA_OPTS=
       -DEUREKA_SERVER=http://ordermyfood:7001/eureka
-    command: sh -c './wait-for configserver:7005 -- config server start'
     depends_on:
       configserver:
         condition: service_started
