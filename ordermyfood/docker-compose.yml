@@ -2,6 +2,7 @@ version: '3'
 services:
   ordermyfood:
     image: com.mindtree.omf/microservice-docker-ordermyfood:0.0.1-SNAPSHOT
+    container_name: ordermyfood
     ports:
       - 7001:7001
     depends_on:
