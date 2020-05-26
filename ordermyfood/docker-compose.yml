@@ -26,3 +26,10 @@ services:
     environment:
       - JAVA_OPTS=
         -DEUREKA_SERVER=http://ordermyfood:7001/eureka
+  gatewayserver:
+    image: com.mindtree.omf/microservice-docker-gatewayserver:0.0.1-SNAPSHOT
+    environment:
+      - JAVA_OPTS=
+         -DEUREKA_SERVER=http://ordermyfood:7001/eureka
+    depends_on:
+      - ordermyfood
