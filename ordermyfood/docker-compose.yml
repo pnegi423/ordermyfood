@@ -33,4 +33,4 @@ services:
         condition: service_started
     environment:
       - JAVA_OPTS=
-      -DEUREKA_SERVER=http://ordermyfood:7001/eureka
+         -DEUREKA_SERVER=http://ordermyfood:7001/eureka
