@@ -21,17 +21,7 @@ services:
     ports:
       - 7005:7005
     volumes:
-      - ./config-data:/var/config-data
-    environment:
-      - JAVA_OPTS=
-         -DEUREKA_SERVER=http://ordermyfood:7001/eureka
-         -Dspring.cloud.config.server.native.searchLocations=/var/config-data
-  searchservice:
-    image: com.mindtree.omf/microservice-docker-searchservice:0.0.1-SNAPSHOT
-    restart: on-failure
-    depends_on:
-      - configserver
-      - ordermyfood
+      - ./config-data:/tmp
     environment:
       - JAVA_OPTS=
          -DEUREKA_SERVER=http://ordermyfood:7001/eureka
