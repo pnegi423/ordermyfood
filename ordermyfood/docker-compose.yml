@@ -28,7 +28,6 @@ services:
         -DEUREKA_SERVER=http://ordermyfood:7001/eureka
   searchservice:
     image: com.mindtree.omf/microservice-docker-searchservice:0.0.1-SNAPSHOT
-    restart: on-failure
     environment:
       - JAVA_OPTS=
         -DEUREKA_SERVER=http://ordermyfood:7001/eureka
