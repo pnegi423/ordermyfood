@@ -1,12 +1,11 @@
-version: '2.1'
+version: '3'
 services:
   ordermyfood:
     image: com.mindtree.omf/microservice-docker-ordermyfood:0.0.1-SNAPSHOT
     ports:
       - 80:7001
     depends_on:
-      sqlserver:
-        condition: service_started
+      - sqlserver
   sqlserver:
     image: mysql:latest
     container_name: sqlserver
@@ -18,8 +17,9 @@ services:
   configserver:
     image: com.mindtree.omf/microservice-docker-configserver:0.0.1-SNAPSHOT
     depends_on:
-      ordermyfood:
-        condition: service_started
+      - ordermyfood
+    ports:
+      - 7005:7005
     volumes:
       - ./config-data:/var/config-data
     environment:
@@ -28,9 +28,10 @@ services:
          -Dspring.cloud.config.server.native.searchLocations=/var/config-data
   searchservice:
     image: com.mindtree.omf/microservice-docker-searchservice:0.0.1-SNAPSHOT
+    restart: on-failure
     depends_on:
-      configserver:
-        condition: service_started
+      - configserver
+      - ordermyfood
     environment:
       - JAVA_OPTS=
          -DEUREKA_SERVER=http://ordermyfood:7001/eureka
