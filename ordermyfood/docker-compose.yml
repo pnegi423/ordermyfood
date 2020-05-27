@@ -26,3 +26,14 @@ services:
     environment:
       - JAVA_OPTS=
         -DEUREKA_SERVER=http://ordermyfood:7001/eureka
+  searchservice:
+    image: com.mindtree.omf/microservice-docker-searchservice:0.0.1-SNAPSHOT
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://ordermyfood:7001/eureka
+    restart: on-failure
+    depends_on:
+      - configserver
+      - ordermyfood
+    ports:
+      - 7003:7003
