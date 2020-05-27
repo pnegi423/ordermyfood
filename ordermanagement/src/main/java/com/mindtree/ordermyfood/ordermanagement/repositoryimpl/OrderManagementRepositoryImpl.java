@@ -1,6 +1,7 @@
 package com.mindtree.ordermyfood.ordermanagement.repositoryimpl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -9,6 +10,7 @@ import com.mindtree.ordermyfood.ordermanagement.dao.ItemDAO;
 import com.mindtree.ordermyfood.ordermanagement.dao.RestaurantDAO;
 import com.mindtree.ordermyfood.ordermanagement.dto.ImagesResponseDto;
 import com.mindtree.ordermyfood.ordermanagement.dto.ItemResponseDto;
+import com.mindtree.ordermyfood.ordermanagement.dto.KafkaResponseDto;
 import com.mindtree.ordermyfood.ordermanagement.dto.OfferResponseDto;
 import com.mindtree.ordermyfood.ordermanagement.dto.RestaurantResponseDto;
 import com.mindtree.ordermyfood.ordermanagement.dto.ReviewsResponseDto;
@@ -25,16 +27,32 @@ public class OrderManagementRepositoryImpl implements OrderManagementRepository 
 	@Autowired
 	RestaurantDAO restaurantDao;
 	
-	@Autowired
-	ItemDAO itemDao;
+	/*
+	 * @Autowired ItemDAO itemDao;
+	 */
 	
 	@Autowired
 	RestaurantMapper restaurantMapper;
+	
 	  
 	@Override
 	public RestaurantResponseDto getRestaurantDetails(int restaurantId) throws DatabaseException,DataNotFoundException {
 	    
 		return restaurantMapper.restaurantToRestaurantResponseDto(findRestaurantById(restaurantId));				 
+		
+	}
+	
+	@Override
+	public KafkaResponseDto getRestaurantDetailsForKafka(int restaurantId) throws DatabaseException,DataNotFoundException {
+	    
+		Restaurant restaurant =findRestaurantById(restaurantId);
+		System.out.println(restaurant.getItems());
+		KafkaResponseDto kafkaResponse=restaurantMapper.restaurantToKafkaResponseDto(restaurant);
+		/*
+		 * kafkaResponse.setItemsId(restaurant.getItems().stream().map(item ->
+		 * item.getId()).collect(Collectors.toList()));
+		 */
+		return kafkaResponse;	 
 		
 	}
 

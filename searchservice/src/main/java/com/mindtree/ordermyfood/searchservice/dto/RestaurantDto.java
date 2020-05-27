@@ -22,6 +22,16 @@ public class RestaurantDto {
 	private String waitTime;
 	private long minOrder;
 	private double budget;
+	private String imageUrl;
+	
+	
+	
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 	public int getResId() {
 		return resId;
 	}

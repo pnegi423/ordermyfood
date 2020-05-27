@@ -34,7 +34,8 @@ public class Restaurants {
 	private String waitTime;
 	private long minOrder;
 	private double budget;
-
+	private String imageUrl;
+	
 	public String getName() {
 		return name;
 	}
@@ -89,7 +90,13 @@ public class Restaurants {
 	public List<Item> getItems() {
 		return items;
 	}
-
+	
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String image) {
+		this.imageUrl = image;
+	}
 	public void setItems(List<Item> items) {
 		this.items = items;
 	}

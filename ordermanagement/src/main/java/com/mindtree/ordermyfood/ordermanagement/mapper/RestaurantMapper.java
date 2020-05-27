@@ -9,6 +9,7 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import com.mindtree.ordermyfood.ordermanagement.dto.ImagesResponseDto;
 import com.mindtree.ordermyfood.ordermanagement.dto.ItemResponseDto;
+import com.mindtree.ordermyfood.ordermanagement.dto.KafkaResponseDto;
 import com.mindtree.ordermyfood.ordermanagement.dto.OfferResponseDto;
 import com.mindtree.ordermyfood.ordermanagement.dto.RestaurantResponseDto;
 import com.mindtree.ordermyfood.ordermanagement.dto.ReviewsResponseDto;
@@ -24,6 +25,8 @@ public interface RestaurantMapper {
 
 	
 	RestaurantResponseDto restaurantToRestaurantResponseDto(Restaurant entity);
+	
+	KafkaResponseDto restaurantToKafkaResponseDto(Restaurant entity);
 
 	
 	//List<com.mindtree.ordermyfood.ordermanagement.dto.Photos> photosToPhotosDto(List<Photos> photos);

@@ -25,7 +25,7 @@ public class Restaurant {
 	private Location location;
 	
 	//@JsonIgnore
-	@OneToMany(mappedBy="restaurant", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@OneToMany(mappedBy="restaurant", cascade = CascadeType.ALL,fetch=FetchType.EAGER)
 	private List<Item> items;
 	
 	private double rating;

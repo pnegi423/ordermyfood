@@ -17,7 +17,8 @@ public interface OrderSummaryMapper {
 		@Mapping(target="customer.id",source="customerId")})
 	OrderSummary orderDetailsToOrderSummary(OrderDetails orderDetails);
 
-	OrderResponseDto orderSummaryToOrderResponseDto(OrderSummary orederSummary);
+	@Mapping(target="customerId",source="customer.id")
+	OrderResponseDto orderSummaryToOrderResponseDto(OrderSummary orderSummary);
 
 	/*
 	 * @Named("itemOrder") default String mapItem(OrderDetails orderDetails) {

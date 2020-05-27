@@ -11,6 +11,7 @@ import com.mindtree.ordermyfood.usermanagement.dto.UserResponseDto;
 import com.mindtree.ordermyfood.usermanagement.entity.OrderSummary;
 import com.mindtree.ordermyfood.usermanagement.exception.DataNotFoundException;
 import com.mindtree.ordermyfood.usermanagement.exception.DatabaseException;
+import com.mindtree.ordermyfood.usermanagement.exception.KafkaListnerException;
 import com.mindtree.ordermyfood.usermanagement.exception.UserMangementException;
 
 public interface UserManagementService {

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.mindtree.ordermyfood.ordermanagement.dto.ImagesResponseDto;
 import com.mindtree.ordermyfood.ordermanagement.dto.ItemResponseDto;
+import com.mindtree.ordermyfood.ordermanagement.dto.KafkaResponseDto;
 import com.mindtree.ordermyfood.ordermanagement.dto.OfferResponseDto;
 import com.mindtree.ordermyfood.ordermanagement.dto.RestaurantResponseDto;
 import com.mindtree.ordermyfood.ordermanagement.dto.ReviewsResponseDto;
@@ -33,6 +34,17 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 			throw new OrderMangementException("Can not connect to resource",exception);
 		} 
 		
+	}
+	
+	@Override
+	public KafkaResponseDto getRestaurantDetailsForKafka(int restaurantId) throws OrderMangementException {
+		try {
+			return orderManagementRepo.getRestaurantDetailsForKafka(restaurantId);
+		} catch(DataNotFoundException exception) {
+			throw new OrderMangementException("Requested data is missing.", exception);
+		}catch (DatabaseException exception) {
+			throw new OrderMangementException("Can not connect to resource",exception);
+		} 
 	}
 
 	@Override
@@ -82,5 +94,6 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 		} 
 		
 	}
+
 
 }

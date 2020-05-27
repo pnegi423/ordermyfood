@@ -96,17 +96,9 @@ public class UserManagementRepositoryImpl implements UserManagementRepository{
 
 	@Override
 	public OrderResponseDto placeOrder(OrderDetails orderDetails) throws DatabaseException, DataNotFoundException {
-
-		
-		/*
-		 * List<Item> items=itemManagementDao.findAllByIdIn(orderDetails.getItemsId());
-		 * if(items==null || items.isEmpty()) {
-		 * 
-		 * throw new DataNotFoundException(); }
-		 */
 		
 		OrderSummary order=orderSummaryMapper.orderDetailsToOrderSummary(orderDetails);
-		order.setItems(getItemsById(orderDetails.getItemsId()));
+		//order.setItems(getItemsById(orderDetails.getItemsId()));
 		try {
 		return (orderSummaryMapper.orderSummaryToOrderResponseDto(orderManagementDao.saveAndFlush(order)));
 		}catch(Exception exception) {

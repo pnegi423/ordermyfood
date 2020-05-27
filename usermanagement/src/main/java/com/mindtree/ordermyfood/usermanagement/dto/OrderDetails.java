@@ -16,7 +16,7 @@ package com.mindtree.ordermyfood.usermanagement.dto;
   private int restaurantId; 
   private boolean payFlag;
   
-  private List<Integer> itemsId;
+  private List<ItemDto> items;
 
 public boolean isAnonymousFlag() {
 	return anonymousFlag;
@@ -90,21 +90,14 @@ public void setPayFlag(boolean payFlag) {
 	this.payFlag = payFlag;
 }
 
-public List<Integer> getItemsId() {
-	return itemsId;
+public List<ItemDto> getItems() {
+	return items;
 }
 
-public void setItemsId(List<Integer> itemsId) {
-	this.itemsId = itemsId;
+public void setItems(List<ItemDto> items) {
+	this.items = items;
 }
 
-@Override
-public String toString() {
-	return "OrderDetails [anonymousFlag=" + anonymousFlag + ", totalCost=" + totalCost + ", email=" + email
-			+ ", phoneNumber=" + phoneNumber + ", customerId=" + customerId + ", deliveryPersonName="
-			+ deliveryPersonName + ", deliveryPersonContact=" + deliveryPersonContact + ", restaurantId=" + restaurantId
-			+ ", payFlag=" + payFlag + ", itemsId=" + itemsId + "]";
-}
 
    
   
