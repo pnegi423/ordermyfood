@@ -36,4 +36,4 @@ services:
       - configserver
       - ordermyfood
     ports:
-      - 7005:7005
+      - 7003:7003
