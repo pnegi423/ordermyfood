@@ -27,8 +27,8 @@ public class GatewayAPIApplication extends WebSecurityConfigurerAdapter{
 		http
 		.csrf().disable()
 		.authorizeRequests(a -> a
-				.antMatchers("/user-management-service/api/v1/customer/**","/order-management-service/**","/search-service/**",
-						"/kafka/**").permitAll()
+				.antMatchers("/user-management-service/api/v1/customer/**","/order-management-service/**","/search-service/**")
+			    .permitAll()
 				.anyRequest().authenticated()
 				)     
 		.oauth2Login();
