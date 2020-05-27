@@ -15,12 +15,7 @@ public class ImagesResponseDto {
 	public void setPhotos(List<Photos> photos) {
 		this.photos = photos;
 	}
-	public String getThumb() {
-		return thumbUrl;
-	}
-	public void setThumb(String thumb) {
-		this.thumbUrl = thumb;
-	}
+
 	public String getThumbUrl() {
 		return thumbUrl;
 	}
