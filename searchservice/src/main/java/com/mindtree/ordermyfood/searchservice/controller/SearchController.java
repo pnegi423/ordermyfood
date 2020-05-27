@@ -59,7 +59,7 @@ public class SearchController {
 	
 	  @ExceptionHandler(ConstraintViolationException.class)
 	    public ResponseEntity<ErrorResponse> onValidationError(Exception ex) {
-		  ErrorResponse error = new ErrorResponse(ex.getMessage(), "ERR001", new Timestamp(System.currentTimeMillis()));
+		  ErrorResponse error = new ErrorResponse("Validation error occured in"+ex.getMessage(), "ERR001", new Timestamp(System.currentTimeMillis()));
 		  
 	        return new ResponseEntity<ErrorResponse>(error,HttpStatus.BAD_REQUEST);
 	    }
