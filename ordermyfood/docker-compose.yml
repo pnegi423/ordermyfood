@@ -42,6 +42,7 @@ services:
     environment:
       - JAVA_OPTS=
          -DEUREKA_SERVER=http://ordermyfood:7001/eureka
+    restart: on-failure
     depends_on:
       - configserver
       - ordermyfood
