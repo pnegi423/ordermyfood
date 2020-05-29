@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @EnableZuulProxy
 @SpringBootApplication
-@ComponentScan(basePackages="com.mindtree.omf")
 @EnableDiscoveryClient
 public class GatewayAPIApplication extends WebSecurityConfigurerAdapter{
 
@@ -27,7 +26,7 @@ public class GatewayAPIApplication extends WebSecurityConfigurerAdapter{
 		http
 		.csrf().disable()
 		.authorizeRequests(a -> a
-				.antMatchers("/user-management-service/api/v1/customer/**","/order-management-service/**","/search-service/**")
+				.antMatchers("/user-management-service/api/v1/customer/**","/order-management-service/**","/search-service/**","/searchservice/**")
 			    .permitAll()
 				.anyRequest().authenticated()
 				)     
