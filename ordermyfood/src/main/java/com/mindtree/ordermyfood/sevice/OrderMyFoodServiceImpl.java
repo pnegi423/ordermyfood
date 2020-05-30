@@ -85,7 +85,7 @@ public class OrderMyFoodServiceImpl implements OrderMyFoodService {
 
 		//foodRepo.saveAndFlush(entity);
 
-		
+		if(restaurants!=null) {
 		
 		for(RestaurantDto restaurantDto : restaurants.getRestaurants())
 		{
@@ -99,19 +99,20 @@ public class OrderMyFoodServiceImpl implements OrderMyFoodService {
 					restaurantDto.getUser_rating(),restaurantDto.getThumb(),restaurantDto.getAverage_cost_for_two(),location,restaurantDto.getPhotos_url());
 			restaurantEntity = foodRepo.saveAndFlush(restaurantEntity);
 			
+			if(restaurantDto.getPhotos()!=null ) {
 			for(com.mindtree.ordermyfood.dto.Photos p:restaurantDto.getPhotos())
 			{
 				Photos photos = restaurantMapper.photosDtoToPhotoEntity(p);
 				photos.setRestaurant(restaurantEntity);
 				photoRepo.saveAndFlush(photos);
 			}
-			
+			}
 					
 			loadItemDetails(restaurantEntity);
 			loadReviews(restaurantEntity);
 			loadOffers(restaurantEntity);
 		}
-
+		}
 		return restaurants;
 
 	}
