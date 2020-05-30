@@ -22,7 +22,7 @@ public class Item {
 	@JoinColumn(name ="res_id")
 	private Restaurant restaurant;
 	
-	private boolean vegFlag;
+	private Character vegFlag;
 	private String type;
 	private int price;
 	public int getId() {
@@ -43,10 +43,10 @@ public class Item {
 	public void setRestaurant(Restaurant restaurant) {
 		this.restaurant = restaurant;
 	}
-	public boolean isVegFlag() {
+	public Character isVegFlag() {
 		return vegFlag;
 	}
-	public void setVegFlag(boolean vegFlag) {
+	public void setVegFlag(Character vegFlag) {
 		this.vegFlag = vegFlag;
 	}
 	public String getType() {
