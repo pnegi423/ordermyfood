@@ -21,8 +21,8 @@ public interface SearchDao extends JpaRepository<Restaurants, Integer> {
 			"and (:type is null or i.type = :type) " +
 			"and (:budget is null or r.budget <= :budget) " +
 			"and (:rating is null or r.rating >= :rating) " +
-			"and ((:search is null or r.name LIKE concat('%',:search,'%')) " +
-			"or (:search is null or i.type LIKE concat('%',:search,'%')))" +
+			"and ((:search is null or r.name LIKE concat('%',ifnull(:search,''),'%')) " +
+			"or (:search is null or i.type LIKE concat('%',ifnull(:search,''),'%')))" +
 			"and (6371 * acos( cos( radians(:lat) ) * cos( radians( l.latitude ) ) "+
 			" * cos( radians(l.longitude ) - radians(:lng) ) + sin( radians(:lat) ) * "
 			+ "sin(radians(l.latitude)) ) <= :dist)")	
@@ -39,8 +39,8 @@ public interface SearchDao extends JpaRepository<Restaurants, Integer> {
 			"and (:type is null or i.type = :type) " +
 			"and (:budget is null or r.budget <= :budget) " +
 			"and (:rating is null or r.rating >= :rating) " +
-			"and ((:search is null or r.name LIKE concat('%',:search,'%')) " +
-			"or (:search is null or i.type LIKE concat('%',:search,'%')))" )	
+			"and ((:search is null or r.name LIKE concat('%',ifnull(:search,''),'%')) " +
+			"or (:search is null or i.type LIKE concat('%',ifnull(:search,''),'%')))" )	
 	List<Restaurants> findRestaurants( 
 			@Param("type") String foodtype, @Param("budget") Double budget, 
 			@Param("rating") Double rating, @Param("search") String searchkeyword, 
