@@ -26,7 +26,7 @@ public class GatewayAPIApplication extends WebSecurityConfigurerAdapter{
 		http
 		.csrf().disable()
 		.authorizeRequests(a -> a
-				.antMatchers("/user-management-service/api/v1/customer/**","/order-management-service/**","/search-service/**","/searchservice/**")
+				.antMatchers("/user-management-service/api/v1/customer/**","/order-management-service/**","/search-service/**","/SEARCH-SERVICE/**","/searchservice/**")
 			    .permitAll()
 				.anyRequest().authenticated()
 				)     
