@@ -6,11 +6,11 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.mindtree.ordermyfood.usermanagement.constants.ErrorMessageConstants;
 import com.mindtree.ordermyfood.usermanagement.dao.ItemManagementDao;
 import com.mindtree.ordermyfood.usermanagement.dao.OrderManagementDao;
 import com.mindtree.ordermyfood.usermanagement.dao.UserManagementDao;
 import com.mindtree.ordermyfood.usermanagement.dto.ItemDto;
-import com.mindtree.ordermyfood.usermanagement.dto.ItemResponseDto;
 import com.mindtree.ordermyfood.usermanagement.dto.OrderDetails;
 import com.mindtree.ordermyfood.usermanagement.dto.OrderResponseDto;
 import com.mindtree.ordermyfood.usermanagement.dto.UserDetailsDto;
@@ -62,7 +62,7 @@ public class UserManagementRepositoryImpl implements UserManagementRepository{
 		try {
 			customerDetails=userManagementDao.findByMailId(userDetails.getMailId());
 		}catch(Exception exception) {
-			throw new DatabaseException("Database connection attempt unsuccessful.",exception);
+			throw new DatabaseException(ErrorMessageConstants.DATABASE_CONNECTION_EXCEPTON,exception);
 		}
 
 		if(null !=customerDetails && customerDetails.isAnonymousFlag()==userDetails.isAnonymousFlag()){
@@ -72,7 +72,7 @@ public class UserManagementRepositoryImpl implements UserManagementRepository{
 		}
 
 		else if(null !=customerDetails && customerDetails.isAnonymousFlag()!=userDetails.isAnonymousFlag()){
-			throw new InvalidDataException("Mismatch in anonymous flag.");
+			throw new InvalidDataException(ErrorMessageConstants.MISMATCH_ANANYMOUS_FLAG_EXCEPTON);
 		}
 
 		return userMapper.customerToUserResponseDto(saveUserDeatils(userDetails));
@@ -85,10 +85,10 @@ public class UserManagementRepositoryImpl implements UserManagementRepository{
 		try {
 			customer = userManagementDao.findById(id);
 		}catch(Exception exception) {
-			throw new DatabaseException("Database connection attempt unsuccessful.", exception);
+			throw new DatabaseException(ErrorMessageConstants.DATABASE_CONNECTION_EXCEPTON, exception);
 		}
 		if(customer==null) {
-			throw new DataNotFoundException("User does not exist for id: "+id);
+			throw new DataNotFoundException(ErrorMessageConstants.USER_UNAVAILABLE_EXCEPTON+id);
 		}
 		return userMapper.customerToUserResponseDto(userManagementDao.findById(id));
 	}
@@ -102,7 +102,7 @@ public class UserManagementRepositoryImpl implements UserManagementRepository{
 		try {
 		return (orderSummaryMapper.orderSummaryToOrderResponseDto(orderManagementDao.saveAndFlush(order)));
 		}catch(Exception exception) {
-			throw new DatabaseException("Database connection attempt unsuccessful.", exception);
+			throw new DatabaseException(ErrorMessageConstants.DATABASE_CONNECTION_EXCEPTON, exception);
 		}
 	}
 
@@ -118,7 +118,7 @@ public class UserManagementRepositoryImpl implements UserManagementRepository{
 		try {
 			return userManagementDao.saveAndFlush(userDetails);
 		}catch(Exception exception) {
-			throw new DatabaseException("Database connection attempt unsuccessful.", exception);
+			throw new DatabaseException(ErrorMessageConstants.DATABASE_CONNECTION_EXCEPTON, exception);
 		}
 	}
 	
@@ -127,10 +127,10 @@ public class UserManagementRepositoryImpl implements UserManagementRepository{
 		try {
 			items = itemManagementDao.findAllByIdIn(itemIdList);
 		}catch(Exception exception) {
-			throw new DatabaseException("Database connection attempt unsuccessful.",exception);
+			throw new DatabaseException(ErrorMessageConstants.DATABASE_CONNECTION_EXCEPTON,exception);
 		}
 		if(items == null || items.isEmpty()) {
-			throw new DataNotFoundException("Items not found for id: "+itemIdList);
+			throw new DataNotFoundException(ErrorMessageConstants.ITEM_UNAVAILABLE_EXCEPTON+itemIdList);
 		}
 		List<Item> unavailableItems =null;
 		if(itemIdList.size() != items.size()) {
@@ -140,7 +140,7 @@ public class UserManagementRepositoryImpl implements UserManagementRepository{
 		}
 
 		if(unavailableItems != null) {
-			throw new DataNotFoundException("Items not found for id: "+unavailableItems);
+			throw new DataNotFoundException(ErrorMessageConstants.ITEM_UNAVAILABLE_EXCEPTON+unavailableItems);
 		}
 		return items;
 	}

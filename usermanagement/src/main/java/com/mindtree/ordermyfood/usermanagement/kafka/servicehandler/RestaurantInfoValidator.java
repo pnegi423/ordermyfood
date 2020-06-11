@@ -13,19 +13,18 @@ import org.springframework.kafka.requestreply.RequestReplyFuture;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
+import com.mindtree.ordermyfood.usermanagement.constants.ErrorMessageConstants;
 import com.mindtree.ordermyfood.usermanagement.controller.FeignServiceClient;
 import com.mindtree.ordermyfood.usermanagement.dto.ItemDto;
-import com.mindtree.ordermyfood.usermanagement.dto.RestaurantDto;
 import com.mindtree.ordermyfood.usermanagement.dto.OrderDetails;
-import com.mindtree.ordermyfood.usermanagement.entity.Item;
+import com.mindtree.ordermyfood.usermanagement.dto.RestaurantDto;
 import com.mindtree.ordermyfood.usermanagement.exception.DataNotFoundException;
 import com.mindtree.ordermyfood.usermanagement.exception.KafkaListnerException;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 @Component
-public class RestaurantValidator{
+public class RestaurantInfoValidator{
 
 	private static final String TOPIC = "OMF_Order";
 	private static final String REPLY_TOPIC = "responsetest";
@@ -50,21 +49,15 @@ public class RestaurantValidator{
 		try {
 			sendResult = sendAndReceive.getSendFuture().get();
 		} catch (InterruptedException | ExecutionException exception) {
-			throw new KafkaListnerException("Error occured while fetching details of restaurant",exception);
+			throw new KafkaListnerException(ErrorMessageConstants.RESTAURANTS_DETAILS_FETCH_EXCEPTON,exception);
 		}
-
-		//print all headers	
-		sendResult.getProducerRecord().headers().forEach(header -> { System.out.println("-------------------------------------------");
-		System.out.println(header.key() + ":" + header.value().toString());});
-		// get consumer record
+		
 		ConsumerRecord<String, RestaurantDto> consumerRecord=null;
 
 		try {
 			consumerRecord = sendAndReceive.get();
-			System.out.println("consumerRecord--------------------------------"+consumerRecord);
 		} catch (InterruptedException | ExecutionException exception) {
-			System.out.println("error-----------------------------------");
-			throw new KafkaListnerException("Error occured while fetching details of restaurant",exception);
+			throw new KafkaListnerException("",exception);
 
 
 		}			
@@ -76,28 +69,13 @@ public class RestaurantValidator{
 
 		Boolean itemValidateFlag =false;
 		List<ItemDto> restaurantItemsList = restaurant.getItems();
-		System.out.println("restaurant---------------------------"+restaurant);
-		System.out.println("restaurantItemsList-------------------------"+restaurantItemsList);
-
-		if(null == restaurantItemsList && restaurantItemsList.isEmpty()) {
-			throw new DataNotFoundException("Items not found for id: "+restaurantItemsList);
+		
+		if(null == restaurantItemsList || restaurantItemsList.isEmpty()) {
+			throw new DataNotFoundException(ErrorMessageConstants.ITEM_UNAVAILABLE_EXCEPTON+restaurantItemsList);
 		}
 
 		List<ItemDto> unavailableItems =null;
 		List<ItemDto> orderItems = orderDetails.getItems();
-
-		/*
-		 * unavailableItems = restaurantItemsList.stream() .map(item -> item.getId())
-		 * .anyMatch( orderItems.stream() .map(item2 -> item2.getId())
-		 * .collect(Collectors.toList()) ::contains);
-		 */
-
-		/*
-		 * unavailableIdItems = restaurantItemsList.stream() .map(item -> item.getId())
-		 * .filter(item -> orderItems.stream() .map(item2 ->
-		 * item2.getId()).collect(Collectors.toList()).contains(item)
-		 * ).collect(Collectors.toList());
-		 */
 
 		unavailableItems = orderItems.stream()
 				.filter(t -> 
@@ -108,14 +86,9 @@ public class RestaurantValidator{
 						.map(item2 -> item2.getId()).collect(Collectors.toList()).contains(item))
 						).collect(Collectors.toList()).contains(t.getId())
 						).collect(Collectors.toList());
-		/*
-		 * unavailableItems = orderItems.stream() .filter(item ->
-		 * !restaurantItemsList.contains(item)) .collect(Collectors.toList());
-		 * list1.stream() .map(Object1::getProperty)
-		 */
 
 		if(unavailableItems != null && !unavailableItems.isEmpty()) {
-			throw new DataNotFoundException("Items not found for id: "+unavailableItems.toString());
+			throw new DataNotFoundException(ErrorMessageConstants.ITEM_UNAVAILABLE_EXCEPTON+unavailableItems.toString());
 		}
 		itemValidateFlag=true;
 		return itemValidateFlag;

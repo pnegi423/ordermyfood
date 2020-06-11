@@ -1,23 +1,15 @@
 package com.mindtree.ordermyfood.usermanagement.serviceimpl;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.common.KafkaException;
-import org.apache.kafka.common.header.internals.RecordHeader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.requestreply.ReplyingKafkaTemplate;
-import org.springframework.kafka.requestreply.RequestReplyFuture;
-import org.springframework.kafka.support.KafkaHeaders;
-import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 
+import com.mindtree.ordermyfood.usermanagement.constants.UserContants;
+import com.mindtree.ordermyfood.usermanagement.constants.ErrorMessageConstants;
 import com.mindtree.ordermyfood.usermanagement.dto.ItemDto;
 import com.mindtree.ordermyfood.usermanagement.dto.ItemResponseDto;
-import com.mindtree.ordermyfood.usermanagement.dto.RestaurantDto;
 import com.mindtree.ordermyfood.usermanagement.dto.OrderDetails;
 import com.mindtree.ordermyfood.usermanagement.dto.OrderResponseDto;
 import com.mindtree.ordermyfood.usermanagement.dto.UserDetailsDto;
@@ -27,10 +19,9 @@ import com.mindtree.ordermyfood.usermanagement.exception.DatabaseException;
 import com.mindtree.ordermyfood.usermanagement.exception.InvalidDataException;
 import com.mindtree.ordermyfood.usermanagement.exception.KafkaListnerException;
 import com.mindtree.ordermyfood.usermanagement.exception.UserMangementException;
-import com.mindtree.ordermyfood.usermanagement.kafka.servicehandler.RestaurantValidator;
+import com.mindtree.ordermyfood.usermanagement.kafka.servicehandler.RestaurantInfoValidator;
 import com.mindtree.ordermyfood.usermanagement.repository.UserManagementRepository;
 import com.mindtree.ordermyfood.usermanagement.service.UserManagementService;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 @Service
 public class UserManagementServiceImpl implements UserManagementService{
@@ -42,7 +33,7 @@ public class UserManagementServiceImpl implements UserManagementService{
 	UserManagementRepository userManagementRepository;
 
 	@Autowired
-	RestaurantValidator restaurantValidator;
+	RestaurantInfoValidator restaurantValidator;
 
 	@Override
 	public ItemResponseDto getPricingDetails(List<Integer> itemIdList) throws UserMangementException {
@@ -50,9 +41,9 @@ public class UserManagementServiceImpl implements UserManagementService{
 		try {
 			return getResponseDto(userManagementRepository.getPricingDetails(itemIdList));
 		} catch(DataNotFoundException exception) {
-			throw new UserMangementException("Requested data is missing.", exception);
+			throw new UserMangementException(ErrorMessageConstants.DATA_UNAVAILABLE_EXCEPTON, exception);
 		}catch (DatabaseException exception) {
-			throw new UserMangementException("Can not connect to resource",exception);
+			throw new UserMangementException(ErrorMessageConstants.RESOURCE_CONNECTION_EXCEPTON,exception);
 		} 
 	}
 
@@ -64,9 +55,9 @@ public class UserManagementServiceImpl implements UserManagementService{
 		try {
 			userResponseDto = userManagementRepository.userDetails(userDetails);
 		} 	catch(InvalidDataException exception) {
-			throw new UserMangementException("You are recognized but cosider your anonimity!", exception);
+			throw new UserMangementException(ErrorMessageConstants.USER_ANONYMOUS_EXCEPTON, exception);
 		}catch (DatabaseException exception) {
-			throw new UserMangementException("Can not connect to resource",exception);
+			throw new UserMangementException(ErrorMessageConstants.RESOURCE_CONNECTION_EXCEPTON,exception);
 		}
 		return getResponse(userResponseDto);
 	}
@@ -78,10 +69,10 @@ public class UserManagementServiceImpl implements UserManagementService{
 			return userManagementRepository.getRegisteredUser(id);
 		}catch(DatabaseException exception) 
 		{
-			throw new UserMangementException("Can not connect to resource",exception);
+			throw new UserMangementException(ErrorMessageConstants.RESOURCE_CONNECTION_EXCEPTON,exception);
 		}
 		catch(DataNotFoundException exception) {
-			throw new UserMangementException("Requested data is missing.", exception);
+			throw new UserMangementException(ErrorMessageConstants.DATA_UNAVAILABLE_EXCEPTON, exception);
 		}
 
 	}
@@ -101,13 +92,13 @@ public class UserManagementServiceImpl implements UserManagementService{
 			return responseDto;
 		}catch(DatabaseException exception) 
 		{
-			throw new UserMangementException("Can not connect to resource",exception);
+			throw new UserMangementException(ErrorMessageConstants.RESOURCE_CONNECTION_EXCEPTON,exception);
 		}catch(DataNotFoundException exception)
 		{
 			throw new UserMangementException(exception.getMessage().toString(), exception);
 		}catch (KafkaListnerException exception) 
 		{
-			throw new UserMangementException("Could not fetch details.",exception);
+			throw new UserMangementException(ErrorMessageConstants.DETAILS_FETCH_EXCEPTON,exception);
 		}
 
 	}
@@ -124,10 +115,10 @@ public class UserManagementServiceImpl implements UserManagementService{
 	private UserResponseDto getResponse(UserResponseDto userResponseDto) {
 		StringBuilder url = new StringBuilder();
 		if(userResponseDto.isAnonymousFlag()) {	
-			url.append(uriPrefix+"customer/order");
+			url.append(uriPrefix+UserContants.ORDER_SUFFIX);
 		}
 		else{
-			url.append(uriPrefix+"login/");
+			url.append(uriPrefix+UserContants.LOGIN_SUFFIX);
 			url.append(userResponseDto.getId());
 		}	
 		userResponseDto.setRedirectionUrl(url.toString());
