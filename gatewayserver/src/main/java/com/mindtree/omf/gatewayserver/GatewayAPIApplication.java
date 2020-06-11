@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableZuulProxy
 @SpringBootApplication
 @EnableDiscoveryClient
-public class GatewayAPIApplication extends WebSecurityConfigurerAdapter{
+public class GatewayAPIApplication{// extends WebSecurityConfigurerAdapter{
 
 	public static void main( String[] args )
 	{
