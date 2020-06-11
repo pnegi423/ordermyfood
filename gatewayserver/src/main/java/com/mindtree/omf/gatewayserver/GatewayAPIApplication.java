@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableZuulProxy
 @SpringBootApplication
 @EnableDiscoveryClient
-public class GatewayAPIApplication{// extends WebSecurityConfigurerAdapter{
+public class GatewayAPIApplication extends WebSecurityConfigurerAdapter{
 
 	public static void main( String[] args )
 	{
@@ -20,17 +20,18 @@ public class GatewayAPIApplication{// extends WebSecurityConfigurerAdapter{
 
 	}
 
-	/*
-	 * @Override protected void configure(HttpSecurity http) throws Exception {
-	 * 
-	 * http .csrf().disable() .authorizeRequests(a -> a
-	 * .antMatchers("/user-management-service/api/v1/customer/**",
-	 * "/order-management-service/**","/search-service/**","/SEARCH-SERVICE/**",
-	 * "/searchservice/**") .permitAll() .anyRequest().authenticated() )
-	 * .oauth2Login();
-	 * 
-	 * }
-	 */
+	
+	  @Override protected void configure(HttpSecurity http) throws Exception {
+	  
+	  http 
+	  .csrf().disable() 
+	  .authorizeRequests(a -> a
+	  .antMatchers("/user-management-service/api/v1/customer/**",
+	  "/order-management-service/**","/search-service/**","/user-management-service/swagger-ui.html") .permitAll() .anyRequest().authenticated() )
+	  .oauth2Login();
+	  
+	  }
+	 
 
 
 }
