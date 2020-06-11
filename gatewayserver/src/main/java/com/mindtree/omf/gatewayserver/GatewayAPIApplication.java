@@ -24,12 +24,14 @@ public class GatewayAPIApplication extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http
+		.httpBasic()
+		.and()
 		.csrf().disable()
 		.authorizeRequests(a -> a
 				.antMatchers("/user-management-service/api/v1/customer/**","/order-management-service/**","/search-service/**","/SEARCH-SERVICE/**","/searchservice/**")
 			    .permitAll()
 				.anyRequest().authenticated()
-				)     
+				)
 		.oauth2Login();
 
 	}
