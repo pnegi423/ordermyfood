@@ -6,11 +6,13 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @EnableZuulProxy
 @SpringBootApplication
 @EnableDiscoveryClient
+@EnableWebSecurity
 public class GatewayAPIApplication extends WebSecurityConfigurerAdapter{
 
 	public static void main( String[] args )
